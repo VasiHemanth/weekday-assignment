@@ -21,7 +21,7 @@ export default function JobCard({ job }) {
         </div>
       </div>
       <p className="card-salary">
-        Estimated Salary: ${job.minJdSalary} - {job.maxJdSalary} M{" "}
+        Estimated Salary: ${job.minJdSalary} - {job.maxJdSalary}{" "}
         {job.salaryCurrencyCode} ✅
       </p>
       <div className="card-content">
@@ -37,7 +37,7 @@ export default function JobCard({ job }) {
       <div className="card-footer">
         <h3>Minimum Experience</h3>
         <h2>{job.minExp} years</h2>
-        <button className="card-button">Easy Apply</button>
+        <button className="card-button">⚡ Easy Apply</button>
       </div>
     </div>
   );

@@ -1,9 +1,19 @@
 import React, { useEffect, useState } from "react";
+
 import JobCard from "./JobCard";
 import JobListShrimmer from "./JobListShrimmer";
+import { useSelector } from "react-redux";
 
 export default function JobList() {
   const [jobData, setJobData] = useState([]);
+  const {
+    roleFilter,
+    experienceFilter,
+    workTypeFilter,
+    minBasePayFilter,
+    searchCompanyFilter,
+    searchByLocationFilter,
+  } = useSelector((state) => state.filters);
 
   useEffect(() => {
     const fetchJobsData = async () => {
@@ -14,7 +24,7 @@ export default function JobList() {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ limit: 35, offset: 0 }),
+          body: JSON.stringify({ limit: 900, offset: 0 }),
         }
       );
       const responseData = await response.json();
@@ -28,13 +38,16 @@ export default function JobList() {
   }
 
   return (
-    <div>
-      JobList
+    <>
       <div className="jobs-container">
-        {jobData.map((job, index) => {
-          return <JobCard key={index} job={job} />;
-        })}
+        {jobData
+          .filter((job) => {
+            if (roleFilter) return job.jobRole.includes(roleFilter);
+          })
+          .map((job, index) => {
+            return <JobCard key={index} job={job} />;
+          })}
       </div>
-    </div>
+    </>
   );
 }

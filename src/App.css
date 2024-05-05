@@ -36,7 +36,7 @@ main {
   background-color: var(--elements-color);
   position: sticky;
   top: 0;
-  z-index: 1;
+  z-index: 999;
 }
 
 .header-content {
@@ -58,7 +58,6 @@ main {
 }
 
 .filter-container {
-  background-color: grey;
   margin-top: 24px;
   margin-bottom: 24px;
 }
@@ -83,6 +82,11 @@ main {
   box-shadow: rgba(0, 0, 0, 0.25) 0px 1px 4px 0px;
   transition: all 0.2s ease-in-out;
   background-color: var(--elements-color);
+}
+
+.job-card:hover {
+  transform: scale(1.01);
+  box-shadow: 0 1px 6px 0px rgba(154, 154, 154, 0.4);
 }
 
 .card-header-container{
@@ -196,8 +200,11 @@ main {
 .card-button {
   width: 100%;
   background-color: #55EFC4;
+  color: rgb(0, 0, 0);
+  font-weight: 500;
   padding: 8px;
-  font-size: 16px;
+  font-size: 14px;
   border: none;
   border-radius: 4px;
+  letter-spacing: 0.3px;
 }
