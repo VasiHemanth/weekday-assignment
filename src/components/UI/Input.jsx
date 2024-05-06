@@ -1,11 +1,14 @@
 import React from "react";
+import { useDispatch } from "react-redux";
 import TextField from "@mui/material/TextField";
 import { Box } from "@mui/material";
-import { useDispatch } from "react-redux";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import { useTheme } from "@mui/material/styles";
 
 export default function Input({ label, value, updateFilter }) {
+  const theme = useTheme();
+  const matchesSm = useMediaQuery(theme.breakpoints.down("sm"));
   const dispatch = useDispatch();
-
   const handleInputChange = (e) => {
     dispatch(updateFilter(e.target.value));
   };
@@ -14,7 +17,7 @@ export default function Input({ label, value, updateFilter }) {
     <Box
       component="form"
       sx={{
-        "& .MuiTextField-root": { m: 1, width: "19ch" },
+        "& .MuiTextField-root": { m: 1, width: matchesSm ? "100%" : 400 },
       }}
       noValidate
       autoComplete="off"

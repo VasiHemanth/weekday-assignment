@@ -26,16 +26,8 @@ export default function Filters() {
     searchCompanyFilter,
   } = useSelector((state) => state.filters);
 
-  console.log(
-    roleFilter,
-    experienceFilter,
-    workTypeFilter,
-    minBasePayFilter,
-    searchCompanyFilter
-  );
-
   return (
-    <div style={{ display: "flex" }}>
+    <div className="filter-container">
       <Dropdown
         options={roles}
         label={"Role"}

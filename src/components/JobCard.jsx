@@ -1,5 +1,6 @@
 import React from "react";
 
+// Job Card
 export default function JobCard({ job }) {
   return (
     <div className="job-card">
@@ -21,7 +22,10 @@ export default function JobCard({ job }) {
         </div>
       </div>
       <p className="card-salary">
-        Estimated Salary: ${job.minJdSalary} - {job.maxJdSalary}{" "}
+        Estimated Salary:
+        {job.minJdSalary != null && job.minJdSalary != null
+          ? `$${job.minJdSalary} - ${job.maxJdSalary} `
+          : `$${10 - 35}`}
         {job.salaryCurrencyCode} ✅
       </p>
       <div className="card-content">

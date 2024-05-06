@@ -11,7 +11,7 @@ export const filterArray = (jobData, variables) => {
           (!experience || (experience <= job.maxExp && experience >=job.minExp)) &&
           (!workType || job.location === workType.toLowerCase()) &&
           (!minBasePay || minBasePay >= job.minJdSalary) &&
-          (!company || job.companyName.toLowerCase().includes(company.toLowerCase())) 
+          (!company || job.companyName.toLowerCase().startsWith(company.toLowerCase())) 
         );
       } else {
         // No filtering if all variables are empty

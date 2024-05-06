@@ -1,11 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
+import { useSelector } from "react-redux";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 import JobCard from "./JobCard";
 import JobListShrimmer from "./JobListShrimmer";
-import { useSelector } from "react-redux";
 import { filterArray } from "../assets/FilteredData";
-import InfiniteScroll from "react-infinite-scroll-component";
 
+// Job List
 export default function JobList() {
   const [jobData, setJobData] = useState([]);
   const [option, setOption] = useState({
@@ -23,36 +24,35 @@ export default function JobList() {
     searchCompanyFilter,
   } = useSelector((state) => state.filters);
 
+  // Function to fetch Jobs Data
+  const fetchJobsData = async () => {
+    try {
+      setOption({ ...option, loading: true });
+      const response = await fetch(
+        "https://api.weekday.technology/adhoc/getSampleJdJSON",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ limit: limit, offset: offset }),
+        }
+      );
+      const responseData = await response.json();
+      const jdlist = responseData["jdList"];
+      setJobData(
+        option.fetchDataOnScrollFlag
+          ? (prevJobData) => [...prevJobData, ...jdlist]
+          : // (prevJobData) => [...prevJobData, ...jdlist]
+            jdlist
+      );
+      setOption({ ...option, loading: false, fetchDataOnScrollFlag: false });
+    } catch (error) {
+      console.error("Error fetching job listings:", error);
+    }
+  };
+
   useEffect(() => {
-    // Function to fetch Jobs Data
-    const fetchJobsData = async () => {
-      try {
-        console.log("fetching data");
-        setOption({ ...option, loading: true });
-        const response = await fetch(
-          "https://api.weekday.technology/adhoc/getSampleJdJSON",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ limit: limit, offset: offset }),
-          }
-        );
-        const responseData = await response.json();
-        const jdlist = responseData["jdList"];
-        console.log("Data", responseData["jdList"], option, offset);
-        setJobData(
-          option.fetchDataOnScrollFlag
-            ? jobData.concat(jdlist)
-            : // (prevJobData) => [...prevJobData, ...jdlist]
-              jdlist
-        );
-        setOption({ ...option, loading: false, fetchDataOnScrollFlag: false });
-      } catch (error) {
-        console.error("Error fetching job listings:", error);
-      }
-    };
     fetchJobsData();
   }, [offset]);
 
@@ -65,12 +65,19 @@ export default function JobList() {
     company: searchCompanyFilter,
   });
 
-  console.log("filteredData", filteredData);
-
+  // Function updates offset triggers use effect and call API for more data
   const fetchDataOnScroll = () => {
-    console.log("fetching data on scroll");
     setOffset((prevOffset) => prevOffset + limit);
     setOption({ ...option, fetchDataOnScrollFlag: true });
+  };
+
+  // Function to Infinite Scroll limit
+  const checkHasMore = () => {
+    if (offset <= 947) {
+      return true;
+    } else {
+      return false;
+    }
   };
 
   if (option.loading) {
@@ -84,14 +91,15 @@ export default function JobList() {
   return (
     <>
       <InfiniteScroll
+        key={filteredData.length}
         dataLength={filteredData.length}
         next={fetchDataOnScroll}
-        hasMore={true}
-        loader={<h4>Loading...</h4>}
-        scrollableTarget={scrollContainerRef.current} // Pass the ref to the scrollableTarget prop
+        hasMore={checkHasMore}
+        scrollableTarget={
+          scrollContainerRef.current ? scrollContainerRef.current : undefined
+        }
       >
         <div className="jobs-container" ref={scrollContainerRef}>
-          {" "}
           {filteredData.map((job, index) => {
             return <JobCard key={index} job={job} />;
           })}
