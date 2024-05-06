@@ -6,7 +6,6 @@ const initialState = {
   workTypeFilter: '',
   minBasePayFilter: '',
   searchCompanyFilter: '',
-  searchByLocationFilter: '',
 };
 
 const filtersSlice = createSlice({
@@ -28,9 +27,7 @@ const filtersSlice = createSlice({
     updateSearchCompanyFilter: (state, action) => {
       state.searchCompanyFilter = action.payload;
     },
-    updateSearchByLocationFilter: (state, action) => {
-      state.searchByLocationFilter = action.payload;
-    },
+
   }
 });
 
@@ -40,7 +37,6 @@ export const {
   updateWorkTypeFilter, 
   updateMinBasePayFilter, 
   updateSearchCompanyFilter, 
-  updateSearchByLocationFilter,
 } = filtersSlice.actions;
 
 export default filtersSlice.reducer;

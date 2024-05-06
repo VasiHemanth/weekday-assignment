@@ -6,7 +6,6 @@ import {
   updateMinBasePayFilter,
   updateWorkTypeFilter,
   updateSearchCompanyFilter,
-  updateSearchByLocationFilter,
 } from "../reducers/filterReducer";
 import {
   workType,
@@ -25,8 +24,15 @@ export default function Filters() {
     workTypeFilter,
     minBasePayFilter,
     searchCompanyFilter,
-    searchByLocationFilter,
   } = useSelector((state) => state.filters);
+
+  console.log(
+    roleFilter,
+    experienceFilter,
+    workTypeFilter,
+    minBasePayFilter,
+    searchCompanyFilter
+  );
 
   return (
     <div style={{ display: "flex" }}>
@@ -38,7 +44,7 @@ export default function Filters() {
       />
       <Dropdown
         options={workType}
-        label={"Remote"}
+        label={"Location"}
         value={workTypeFilter}
         updateFilter={updateWorkTypeFilter}
       />
@@ -58,11 +64,6 @@ export default function Filters() {
         label={"Search Company"}
         value={searchCompanyFilter}
         updateFilter={updateSearchCompanyFilter}
-      />
-      <Input
-        label={"Search by location"}
-        value={searchByLocationFilter}
-        updateFilter={updateSearchByLocationFilter}
       />
     </div>
   );
